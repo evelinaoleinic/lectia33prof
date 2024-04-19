@@ -1,0 +1,13 @@
+
+
+.styledForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 32px;
+    gap: 16px;
+
+    p {
+        margin: 0;
+    }
+}

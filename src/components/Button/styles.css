@@ -1,0 +1,12 @@
+
+
+.styledButton {
+    padding: 8px 16px;
+    border: none;
+    background-color: black;
+    color: white;
+    font-size: 1rem;
+    font-weight: 500;
+    width: 100%;
+    cursor: pointer;
+}

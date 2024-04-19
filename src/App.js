@@ -1,23 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import Typography from "./components/Typography";
+import Form from "./components/Form";
 
 function App() {
+  const [toDoList, setToDoList] = useState([])
+  const [toDoTitle, setToDoTitle] = useState('')
+
+  const handleChangeTodoTitle = (event) => {
+    setToDoTitle(event.target.value)
+  }
+
+  const addToDo = () => {
+    const newValue = [...toDoList, toDoTitle]
+    setToDoList(newValue)
+  }
+
+  const renderList = toDoList.map((item, idx) => <li key={idx}>{item}</li>)
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Typography
+        title='Todo List'
+        tag="h1"
+        className='title' />
+
+      <Form
+       title="Add todo"
+        tag="p" 
+        value={toDoTitle}
+        onChange={handleChangeTodoTitle}
+        placeholder="Add title"
+        buttonTitle="Add todo"
+        buttonAction={addToDo}
+         />
+         <ul>
+         {renderList}
+         </ul>
     </div>
   );
 }
