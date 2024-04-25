@@ -3,12 +3,13 @@ import ListItem from "../../components/listitem"
 import Typography from "../../components/Typography"
 import Form from "../../components/Form"
 import Modal from "../../components/modal"
+import Icon from "../../components/icons"
 
 
 
 const ToDoList =()=>{
 const [toDoList, setToDoList] = useState([])
-const[donetodolist, setdonetodolist]=useState([])
+
   const [toDoTitle, setToDoTitle] = useState('')
   const [editToDo, setEditToDo]=useState('')//EDITODO  lucreaza doar atunci cand apasam pe modal 
   //const[isModalOpen, setIsModalOpen]=useState(false)//titlu nou a todo-ului
@@ -19,26 +20,27 @@ const[donetodolist, setdonetodolist]=useState([])
   }
 
   const addToDo = () => {
-    const nonUniq = toDoList.some(item=>item === toDoTitle) //verificam ca sa fie unic si daca el nu exista deja 
+    const nonUniq = toDoList.some(item=>item.title === toDoTitle) //verificam ca sa fie unic si daca el nu exista deja 
 
     if(nonUniq ) return alert('ai deja unul') //daca e nonuniq, fa alerta
 
-    const newValue = [...toDoList, toDoTitle]
+    const newValue = [...toDoList, {title: toDoTitle,done:false}]
     setToDoList(newValue)
     setToDoTitle('')
   }
-const deleteToDo=(title)=>{
-  const newList = toDoList.filter(item=>item!==title)
+const deleteToDo=(e, title)=>{
+  e.stopPropagation()
+  const newList = toDoList.filter(item=>item.title !==title)
   setToDoList([...newList]) //sa fie o copie a listei vechi
 }
 const handlerEditToDo = ()=>{
-const nonUniq = toDoList.some(item=>item === editToDo) //verificam ca sa fie unic si daca el nu exista deja 
+const nonUniq = toDoList.some(item=>item.title === editToDo) //verificam ca sa fie unic si daca el nu exista deja 
 
   if(nonUniq ) return alert('ai deja unul')
 
 const newList = toDoList.map(item=>{
-  if(item===toDoToEdit){//vaqrificam daca vreun elem. din lista este identic cu titlu vechi
-    return editToDo//returnam optiunea noua 
+  if(item.title===toDoToEdit){//vaqrificam daca vreun elem. din lista este identic cu titlu vechi
+    return {...item,title:editToDo }//returnam optiunea noua 
   }
 return item
 })
@@ -46,44 +48,47 @@ setToDoList(newList)
 setToDoToEdit('')//ca sa inchidem modalul 
 }
 
-const toogleToDo =(title, setList,removeSetList, removeInitialList)=>{
-    const newList = removeInitialList.filter(item=>item!==title)
-    removeSetList(newList)
-    setList((prevState)=>[...prevState,title])
+const toogleToDo =( title)=>{
+  
+    const newList = toDoList.map(item=>item.title===title ? {...item, done:!item.done}: item)
+  
+    setToDoList(newList)
 }
 
 //dunctia care schimba valoarea
 
-  const renderToDoList = toDoList.map((item, idx) => {
-    return <ListItem title={item} 
+  const renderToDoList = toDoList.filter(item=> !item.done).map((item, idx) => {
+    return <ListItem title={item.title} 
     key={idx}
-    deleteAction={()=> deleteToDo(item)}
-  editAction={()=>{
-    setEditToDo(item)//seteaza valoarea pentru input ca sa o vede
-    setToDoToEdit(item)//pastreaza valoarea beche a todo-ului
+    deleteAction={(e)=> deleteToDo(e, item.title)}
+  editAction={(e)=>{
+    e.stopPropagation()
+    setEditToDo(item.title)//seteaza valoarea pentru input ca sa o vede
+    setToDoToEdit(item.title)//pastreaza valoarea beche a todo-ului
 
   }}
-  onClick={()=>toogleToDo(item, setdonetodolist, setToDoList, toDoList)}
+  onClick={()=>toogleToDo( item.title)}
     />
 
   })
   
-  const renderDoneToDoList = donetodolist.map((item, idx) => {
-    return <ListItem title={item} 
+  const renderDoneToDoList = toDoList.filter(item=> item.done).map((item, idx) => {
+    return <ListItem title={item.title} 
     key={idx}
     done
-    deleteAction={()=> deleteToDo(item)}
-  editAction={()=>{
-    setEditToDo(item)//seteaza valoarea pentru input ca sa o vede
-    setToDoToEdit(item)//pastreaza valoarea beche a todo-ului
+    deleteAction={(e)=> deleteToDo(e,item.title)}
+  editAction={(e)=>{
+    e.stopPropagation()
+    setEditToDo(item.title)//seteaza valoarea pentru input ca sa o vede
+    setToDoToEdit(item.title)//pastreaza valoarea beche a todo-ului
 
   }}
-  onClick={()=>toogleToDo(item, setToDoList, setdonetodolist,donetodolist)}
-
+  onClick={()=>toogleToDo(item.title)}
     />
 
   })
-
+ 
+  
   return (
     <div>
       <Typography
