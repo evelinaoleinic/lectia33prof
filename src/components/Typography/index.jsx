@@ -1,8 +1,8 @@
-
+import './styles.css'
 const getTag = (tag, text, props) => {
     switch (tag) {
         case 'h1':
-            return <h1 {...props}>{text}</h1>
+            return <h1 className="title" {...props}>{text}</h1>
         case 'h2':
             return <h2 {...props}>{text}</h2>
         case 'h3':
@@ -20,7 +20,7 @@ const getTag = (tag, text, props) => {
     }
 }
 
-const Typography = ({ title, tag, ...rest }) => {
+const Typography = ({ title, tag='p', ...rest }) => {
     return getTag(tag, title, rest);
 }
 

@@ -1,0 +1,17 @@
+
+.listItemContainer {
+    display:flex;
+    align-items:center;
+    justify-content: space-between;
+    width:200px;
+    border-bottom: 1px solid grey;
+    background-color: rgba(32,32,32,0.1);
+    margin:8px 0;
+    padding:0 8px;
+    height:50px;
+
+}
+.listItemsActions{
+    display:flex;
+    gap:8px;
+}

@@ -7,23 +7,24 @@ import './styles.css';
 const Form = ({
     title,
     tag,
-    inputValue,
+    value,
     onChange,
     placeholder,
     buttonTitle,
-    buttonAction
+    buttonAction,
+    buttonDisabled
 }) => {
     return (
         <div className='styledForm'>
             <div>
             <Typography title={title} tag={tag} />
             <Input
-                value={inputValue}
+                value={value}
                 onChange={onChange}
                 placeholder={placeholder}
             />
             </div>
-            <Button onClick={buttonAction}>{buttonTitle}</Button>
+            <Button onClick={buttonAction} disabled={buttonDisabled}>{buttonTitle}</Button>
         </div>
     )
 }

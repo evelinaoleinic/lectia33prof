@@ -9,4 +9,10 @@
     font-weight: 500;
     width: 100%;
     cursor: pointer;
+
+    
+}
+
+.styledButton:disabled{
+    opacity:0.4;
 }
